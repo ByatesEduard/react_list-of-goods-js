@@ -25,9 +25,9 @@ export const App = () => {
   const sortAlphabetically = () => {
     const sorted = [...goods].sort((a, b) => a.localeCompare(b));
 
-    setSortType('alphabet');
     setGoods(sorted);
     setIsReversed(false);
+    setSortType('alphabet');
   };
 
   const sortByLength = () => {
