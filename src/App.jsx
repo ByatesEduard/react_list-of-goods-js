@@ -1,6 +1,4 @@
-import 'bulma/css/bulma.css';
-import './App.scss';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const goodsFromServer = [
   'Dumplings',
@@ -17,24 +15,19 @@ const goodsFromServer = [
 
 export const App = () => {
   const [goods, setGoods] = useState(goodsFromServer);
-  const [sortType, setSortType] = useState('default');
   const [isReversed, setIsReversed] = useState(false);
-
-  const isResetVisible = sortType !== 'default' || isReversed;
+  const [sortType, setSortType] = useState(null); // 'alpha' | 'length' | null
 
   const sortAlphabetically = () => {
-    const sorted = [...goods].sort((a, b) => a.localeCompare(b));
-
-    setGoods(sorted);
+    setGoods(prevGoods => [...prevGoods].sort((a, b) => a.localeCompare(b)));
     setIsReversed(false);
-    setSortType('alphabet');
+    setSortType('alpha');
   };
 
   const sortByLength = () => {
-    const sorted = [...goods].sort((a, b) => a.length - b.length);
-
+    setGoods(prevGoods => [...prevGoods].sort((a, b) => a.length - b.length));
+    setIsReversed(false);
     setSortType('length');
-    setGoods(sorted);
   };
 
   const reverseGoods = () => {
@@ -44,6 +37,8 @@ export const App = () => {
 
   const resetGoods = () => {
     setGoods(goodsFromServer);
+    setIsReversed(false);
+    setSortType(null);
   };
 
   return (
@@ -52,7 +47,7 @@ export const App = () => {
         <button
           type="button"
           onClick={sortAlphabetically}
-          className={`button is-success ${sortType === 'alphabet' && !isReversed ? '' : 'is-light'}`}
+          className={`button is-info ${sortType === 'alpha' && !isReversed ? '' : 'is-light'}`}
         >
           Sort alphabetically
         </button>
@@ -73,7 +68,7 @@ export const App = () => {
           Reverse
         </button>
 
-        {isResetVisible && (
+        {JSON.stringify(goods) !== JSON.stringify(goodsFromServer) && (
           <button
             type="button"
             onClick={resetGoods}
@@ -94,3 +89,5 @@ export const App = () => {
     </div>
   );
 };
+
+export default App;
