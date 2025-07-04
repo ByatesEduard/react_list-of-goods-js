@@ -33,6 +33,7 @@ export const App = () => {
   const reverseGoods = () => {
     setGoods(prevGoods => [...prevGoods].reverse());
     setIsReversed(prev => !prev);
+    setSortType(null);
   };
 
   const resetGoods = () => {
